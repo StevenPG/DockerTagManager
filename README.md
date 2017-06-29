@@ -15,23 +15,24 @@ This allows for us to easily see which tags point to which images as shown in th
 Currently, the strategy in mind is a numbered version strategy with alpha-numeric tags as reference pointers.
 
 Sorted (Alphabetically) by Tag
-app:1.0
-app:1.1
-app:1.2
-app:1.3 ---------> rollback
-app:2.0 ---------> production
-app:2.1 ---------> qatesting
-       \---------> perftesting
-app:2.2 ---------> latest
-app:latest ------> 2.2
-app:production --> 2.0
-app:perftesting -> 2.1
-              \--> qatesting
-app:qatesting ---> 2.1
-             \---> perftesting
-app:rollback ----> 1.3
 
-The above structure, in whatever capacity, allows non-technical individuals to use a Filter to find the tag they are interested in viewing. This tag will point to all over references, and have the required information.
+    app:1.0
+    app:1.1
+    app:1.2
+    app:1.3 ---------> rollback
+    app:2.0 ---------> production
+    app:2.1 ---------> qatesting
+           \---------> perftesting
+    app:2.2 ---------> latest
+    app:latest ------> 2.2
+    app:production --> 2.0
+    app:perftesting -> 2.1
+                  \--> qatesting
+    app:qatesting ---> 2.1
+                 \---> perftesting
+    app:rollback ----> 1.3
+
+The above structure, in whatever tag configuration, allows non-technical individuals to use a Filter to find the tag they are interested in viewing. This tag will point to all other references, and have the required information.
 
 Resources:
 Retrieving Image Digests
