@@ -1,0 +1,5 @@
+{
+  "registries": {
+    "local": "http://localhost:5000/"
+  }
+}
