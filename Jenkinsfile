@@ -8,4 +8,8 @@ node {
 	stage ('Build Jar') {
 		sh "${mvnHome}/bin/mvn clean install"
 	}
+
+	stage ('SonarQube') {
+		sh '${mvnHome}/bin/mvn sonar:sonar -Dsonar.host.url=http://localhost:9000'
+	}
 }
