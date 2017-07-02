@@ -1,0 +1,42 @@
+{"properties": [
+  {
+    "name": "docker.registry.localhost",
+    "type": "java.lang.String",
+    "description": "A description for 'docker.registry.localhost'"
+  },
+  {
+    "name": "docker.registry[0]",
+    "type": "java.lang.String",
+    "description": "A description for 'docker.registry[0]'"
+  },
+  {
+    "name": "docker.registry[0]",
+    "type": "java.lang.String",
+    "description": "A description for 'docker.registry[0]'"
+  },
+  {
+    "name": "docker.registry.dev",
+    "type": "java.lang.String",
+    "description": "A description for 'docker.registry.dev'"
+  },
+  {
+    "name": "docker.registry.prod",
+    "type": "java.lang.String",
+    "description": "A description for 'docker.registry.prod'"
+  },
+  {
+    "name": "docker.registry[0]",
+    "type": "java.lang.String",
+    "description": "A description for 'docker.registry[0]'"
+  },
+  {
+    "name": "docker.registry[1]",
+    "type": "java.lang.String",
+    "description": "A description for 'docker.registry[1]'"
+  },
+  {
+    "name": "docker.registry[2]",
+    "type": "java.lang.String",
+    "description": "A description for 'docker.registry[2]'"
+  }
+]}
