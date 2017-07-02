@@ -5,7 +5,7 @@ import org.springframework.web.client.RestTemplate;
 public class RegistryConnection {
     
     //TODO Temporary URL
-    private static final String TEMPORARY_URL = "http://localhost:5000/";
+    private static final String TEMPORARY_URL = "http://10.0.75.1:5000/";
 	
 	public RegistryConnection() {	
 	}

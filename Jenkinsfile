@@ -10,6 +10,6 @@ node {
 	}
 
 	stage ('SonarQube') {
-		sh '${mvnHome}/bin/mvn sonar:sonar -Dsonar.host.url=http://localhost:9000'
+		sh '${mvnHome}/bin/mvn sonar:sonar -Dsonar.host.url=http://10.0.75.1:9000'
 	}
 }
