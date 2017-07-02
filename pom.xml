@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.stevengantz.docker</groupId>
-	<artifactId>RegistryViewer</artifactId>
+	<artifactId>DockerTagManager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>RegistryViewer</name>
-	<description>RegistryViewer for Docker to make image tagging strategies accessible to non-technical individuals.</description>
+	<name>DockerTagManager</name>
+	<description>DockerTagManager for Docker to make image tagging strategies accessible to non-technical individuals.</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

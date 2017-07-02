@@ -4,7 +4,6 @@ node {
     }
     
     def mvnHome = tool 'M35'
-    jdk 'jdk8' 
 
 	stage ('Build Jar') {
 		sh "${mvnHome}/bin/mvn clean install"
