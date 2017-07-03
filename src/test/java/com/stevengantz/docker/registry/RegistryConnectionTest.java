@@ -13,10 +13,11 @@ import org.junit.Test;
 public class RegistryConnectionTest {
 
 	private RegistryConnection api;
+	private String testURL = "http://10.0.75.1:5000/";
 	
 	@Before
 	public void setUp() throws Exception {
-		api = new RegistryConnection();
+		api = new RegistryConnection(testURL);
 	}
 
 	@After
@@ -42,7 +43,8 @@ public class RegistryConnectionTest {
 		repos.add("registry");
 		cat.setRepositories(repos);
 		
-		api.getRegistryCatalog("http://localhost:5000/v2/");
+		assertNotNull(api);
+		api.getRegistryCatalog("http://10.0.75.1:5000/");
 		
 		assertEquals(cat.getRepositories().get(0), repos.get(0));
 	}

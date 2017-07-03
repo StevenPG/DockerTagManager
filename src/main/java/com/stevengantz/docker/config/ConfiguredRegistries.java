@@ -43,13 +43,13 @@ public class ConfiguredRegistries {
 		} catch (FileNotFoundException e) {
 			// TODO - Update to spring boot path
 			logger.error("FileNotFoundException thrown searching for ./config/config.json file");
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (IOException e) {
 			logger.error("IOException occurred while attempting to read from configuration file");
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (ParseException e) {
 			logger.error("ParseException occurred while attempting to parse configuration file");
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	

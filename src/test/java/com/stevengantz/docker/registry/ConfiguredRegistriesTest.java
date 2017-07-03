@@ -71,6 +71,6 @@ public class ConfiguredRegistriesTest {
 	@Test(expected = RegistryNotFoundException.class)
 	public void testGetURLFromNameNotFound() throws RegistryNotFoundException {
 		addTestItems();
-		String getURL = cregs.getURLFromName("non-existant-name");
+		cregs.getURLFromName("non-existant-name");
 	}
 }
