@@ -12,9 +12,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 
 import com.stevengantz.docker.exception.RegistryNotFoundException;
 
+@Configuration
 public class ConfiguredRegistries {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -29,13 +31,16 @@ public class ConfiguredRegistries {
 			// TODO - Place into application.properties
 			JSONObject obj = (JSONObject) parser.parse(new FileReader("./config/config.json"));
 
+			// Grab the first key and iterate over it's keys
+			JSONObject registries = (JSONObject) obj.get("registries");
 			// Pull keys, map into RegistryItems and add to List
-			Iterator<?> keyIter = obj.keySet().iterator();
+			Iterator<?> keyIter = registries.keySet().iterator();
+			
 			while (keyIter.hasNext()) {
 				String key = (String) keyIter.next();
 				RegistryItem ritem = new RegistryItem();
 				ritem.setRegistryLabel(key);
-				ritem.setRegistryURL(obj.get(key).toString());
+				ritem.setRegistryURL(registries.get(key).toString());
 
 				items.add(ritem);
 			}
@@ -59,6 +64,7 @@ public class ConfiguredRegistries {
 	 */
 	public String getURLFromName(String name) throws RegistryNotFoundException {
 		for(RegistryItem regi : items) {
+			logger.info("Found Registry: " + regi.getRegistryURL() + " configured with name " + regi.getRegistryLabel());
 			if(regi.getRegistryLabel().equals(name)) {
 				return regi.getRegistryURL();
 			}

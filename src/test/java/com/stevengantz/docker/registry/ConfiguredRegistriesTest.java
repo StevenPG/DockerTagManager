@@ -43,9 +43,9 @@ public class ConfiguredRegistriesTest {
 
 	@Test
 	public void testToString() {
-		assertEquals("ConfiguredRegistries: registries: {\"local\":\"http:\\/\\/10.0.75.1:5000\\/\"}, ", cregs.toString());
+		assertEquals("ConfiguredRegistries: local: http://10.0.75.1:5000/, ", cregs.toString());
 	}
-	
+		
 	@Test
 	public void testGetItems() {
 		addTestItems();
