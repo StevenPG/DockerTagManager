@@ -44,9 +44,8 @@ public class RegistryConnectionTest {
 		cat.setRepositories(repos);
 		
 		assertNotNull(api);
-		api.getRegistryCatalog("http://10.0.75.1:5000/");
 		
-		assertEquals(cat.getRepositories().get(0), repos.get(0));
+		assertEquals(cat.getRepositories().get(0), api.getRegistryCatalog().getRepositories().get(0));
 	}
 	
 	@Test

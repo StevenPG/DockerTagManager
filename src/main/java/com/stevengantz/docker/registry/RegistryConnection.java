@@ -17,7 +17,7 @@ public class RegistryConnection {
 	// Your request must include the header
 	// Accept: application/vnd.docker.distribution.manifest.v2+json
 	// In the response, the image ID will be in the Content-Docker-Digest Response header.
-	private static final String imageIDRequiredHeader = "application/vnd.docker.distribution.manifest.v2+json";
+	private static final String imageIdRequiredHeader = "application/vnd.docker.distribution.manifest.v2+json";
 	
 	// TODO - Change to be name of registry configured, and retrieved within class
 	public RegistryConnection(String registryURL) {	
@@ -39,7 +39,7 @@ public class RegistryConnection {
 	 * @param URL
 	 * @return
 	 */
-	public RegistryCatalog getRegistryCatalog(String URL) {
+	public RegistryCatalog getRegistryCatalog() {
 		RestTemplate restTemplate = new RestTemplate();
 		return restTemplate.getForObject(registryURL + "v2/_catalog/", RegistryCatalog.class);
 	}
@@ -58,7 +58,7 @@ public class RegistryConnection {
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-		headers.add("Accept", imageIDRequiredHeader);
+		headers.add("Accept", imageIdRequiredHeader);
 		
 		HttpEntity<String> request = new HttpEntity<>("getID", headers);
 		

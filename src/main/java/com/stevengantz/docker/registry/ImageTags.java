@@ -10,9 +10,6 @@ public class ImageTags {
 	private String name;
 	private List<String> tags;
 
-	public ImageTags() {
-	}
-
 	public String getName() {
 		return name;
 	}
