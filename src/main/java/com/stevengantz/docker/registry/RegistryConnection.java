@@ -17,7 +17,7 @@ public class RegistryConnection {
 	// Your request must include the header
 	// Accept: application/vnd.docker.distribution.manifest.v2+json
 	// In the response, the image ID will be in the Content-Docker-Digest Response header.
-	private final String imageIDRequiredHeader = "application/vnd.docker.distribution.manifest.v2+json";
+	private static final String imageIDRequiredHeader = "application/vnd.docker.distribution.manifest.v2+json";
 	
 	// TODO - Change to be name of registry configured, and retrieved within class
 	public RegistryConnection(String registryURL) {	
@@ -57,10 +57,10 @@ public class RegistryConnection {
 		// As per https://stackoverflow.com/questions/21723183/spring-resttemplate-to-post-request-with-custom-headers-and-a-request-object
 		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
 		headers.add("Accept", imageIDRequiredHeader);
 		
-		HttpEntity<String> request = new HttpEntity<String>("getID", headers);
+		HttpEntity<String> request = new HttpEntity<>("getID", headers);
 		
 		// Get info back as JSON, only keep config/digest as info, return only digest as full string.
 		ResponseEntity<RegistryManifest> manifest = restTemplate.exchange(
