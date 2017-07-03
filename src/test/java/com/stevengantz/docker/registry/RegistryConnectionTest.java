@@ -48,5 +48,9 @@ public class RegistryConnectionTest {
 		
 		assertEquals(cat.getRepositories().get(0), repos.get(0));
 	}
-
+	
+	@Test
+	public void testGetImageID() {
+		assertEquals("sha256:c2a449c9f8344bc09d07c42839c6ea012ffb522456c52304175c0519ce7870d4", api.getImageID("registry", "latest"));
+	}
 }

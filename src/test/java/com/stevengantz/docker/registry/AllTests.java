@@ -15,6 +15,8 @@ import com.stevengantz.docker.controller.RegistryRESTControllerTest;
 	ImageTagsTest.class, 
 	RegistryCatalogTest.class,
 	RegistryConnectionTest.class,
+	RegistryManifestTest.class,
+	RegistryManifestConfigTest.class
 	})
 public class AllTests {
 
