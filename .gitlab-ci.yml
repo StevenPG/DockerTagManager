@@ -1,4 +1,7 @@
 # Official docker image.
+before_script:
+    - echo "Beginning Build"
+
 maven:build:
     image: maven:3.5.0-jdk-8-alpine
     script:
