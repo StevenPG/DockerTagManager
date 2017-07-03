@@ -6,9 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("com.stevengantz")
-public class RegistryViewerApplication {
+public class DockerTagManagerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RegistryViewerApplication.class, args);
+		SpringApplication.run(DockerTagManagerApplication.class, args);
 	}
 }
