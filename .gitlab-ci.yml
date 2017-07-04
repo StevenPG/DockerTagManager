@@ -13,12 +13,12 @@ test:
   image: maven:3.5.0-jdk-8-alpine
   stage: test
   script:
-    - mvn sonar:sonar
+    - mvn sonar:sonar -Dsonar.host.url=https://sonarqube.com
 
 deploy:
   image: docker:latest
   stage: deploy
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY
-    - docker build -t $REGISTRY/StevenPG/DockerTagManager .
+    - docker build -t $REGISTRY/StevenPG/DockerTagManager:latest .
     - docker push $REGISTRY/StevenPG/DockerTagManager
