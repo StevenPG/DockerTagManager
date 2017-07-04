@@ -43,7 +43,7 @@ The above structure, in whatever tag configuration, allows non-technical individ
 - [ ] Get all identical/matching items using digests via DockerTagManager API
 - [ ] Specify Registry within API URL
 - [ ] Store registries within application in centralized location
-- [ ] Easily add new registries
+- [X] Easily add new registries - Alter config.json, mounted in docker. Restarting application will pick up new registries.
 - [ ] Support Secure and Insecure registries
 - [ ] Support pagination for large registries
 - [ ] Visually display and filter all registry items

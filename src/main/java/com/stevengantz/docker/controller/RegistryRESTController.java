@@ -34,5 +34,7 @@ public class RegistryRESTController {
 					"Registry " + registry + " not found in configurations.");
 		}
 	}
+	
+	
 
 }
