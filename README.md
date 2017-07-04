@@ -49,7 +49,16 @@ The above structure, in whatever tag configuration, allows non-technical individ
 - [ ] Visually display and filter all registry items
 
 ## CI/CD
-Jenkins automated builds using Jenkinsfiles. Successful builds result in an image push to this repository's docker registry.
+Jenkins automated builds using a Jenkinsfile and a local Jenkins container. Successful builds result in an image push to this repository's docker registry.
+
+Unit tests are completed using a local docker registry:2 hosted on the development machine. These tests will fail when run on a different system. 
+
+This will be remediated in the future.
+
+## Run
+```bash
+docker run <in progress>
+```
 
 ## Resources:
 Retrieving Image Digests
