@@ -9,6 +9,6 @@ public class RegistryRESTControllerTest {
 	@Test
 	public void testImplicitConstructor() {
 		assertNotNull(new RegistryRESTController());
-	}	
+	}
 
 }
