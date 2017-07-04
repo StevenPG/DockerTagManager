@@ -1,4 +1,24 @@
-image: maven:3.5.0-jdk-8-alpine
+stages:
+  - build
+  - test
+  - deploy
 
 build:
-    script: "mvn install -B -DskipTests"
+  image: maven:3.5.0-jdk-8-alpine
+  stage: build
+  script: 
+    - mvn install -B -DskipTests
+
+test:
+  image: maven:3.5.0-jdk-8-alpine
+  stage: test
+  script:
+    - mvn sonar:sonar
+
+deploy:
+  image: docker:latest
+  stage: deploy
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY
+    - docker build -t $REGISTRY/StevenPG/DockerTagManager .
+    - docker push $REGISTRY/StevenPG/DockerTagManager
