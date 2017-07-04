@@ -9,12 +9,6 @@ build:
   script: 
     - mvn install -B -DskipTests
 
-test:
-  image: maven:3.5.0-jdk-8-alpine
-  stage: test
-  script:
-    - mvn sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.login=${SONARQUBE_TOKEN}
-
 deploy:
   image: docker:latest
   stage: deploy
