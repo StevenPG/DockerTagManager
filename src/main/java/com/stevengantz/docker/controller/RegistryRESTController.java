@@ -18,15 +18,27 @@ import com.stevengantz.docker.exception.RegistryNotFoundException;
 import com.stevengantz.docker.registry.ImageTags;
 import com.stevengantz.docker.registry.RegistryConnection;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 // This rest controller makes REST calls to configured docker registries
 @RestController
 @RequestMapping("/api/v1/")
+@Api(value="dockertagmanager", description="REST Operations on Remote Docker Registries")
 public class RegistryRESTController {
 
 	// On controller initialization, load configured registries
 	@Autowired
 	private ConfiguredRegistries configs;
 
+	@ApiOperation(value = "Return list of repositories (images) within PathVariable: registry", 
+			response = RegistryCatalogResponse.class, produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully retrieved list"),
+			@ApiResponse(code = 400, message = "Registry not found in configurations")
+	})
 	@RequestMapping(path = "/{registry}/repos", method = RequestMethod.GET)
 	public @ResponseBody RegistryCatalogResponse getReposInRegistry(@PathVariable String registry) {
 		RegistryConnection localConnection;
@@ -40,7 +52,7 @@ public class RegistryRESTController {
 		}
 	}
 	
-	
+	// TODO - Add swagger information to class
 	// TODO - Change from List<String> to JSON object
 	// list all tags of certain image
 	@RequestMapping(path = "/{registry}/{repo}/tags", method = RequestMethod.GET)
@@ -57,6 +69,7 @@ public class RegistryRESTController {
 		return null;
 	}
 	
+	// TODO - Add swagger information to class
 	// TODO - Change from List<String> to JSON object
 	// get digest of specific image and tag
 	@RequestMapping(path = "/{registry}/{repo}/{tag}/id", method = RequestMethod.GET)
@@ -72,6 +85,7 @@ public class RegistryRESTController {
 		return null;
 	}
 	
+	// TODO - Add swagger information to class
 	// TODO - Change from List<String> to JSON object
 	// Pass in digest only in specific registry, get images and tags back that match
 	@RequestMapping(path = "/{registry}/{id}/objects", method = RequestMethod.GET)
@@ -79,6 +93,7 @@ public class RegistryRESTController {
 		return null;
 	}
 	
+	// TODO - Add swagger information to class
 	// TODO - Change from List<String> to JSON object
 	// Pass in only digest, get images and tags back that much from all repos
 	@RequestMapping(path = "/registries/{id}/objects", method = RequestMethod.GET)
@@ -86,6 +101,7 @@ public class RegistryRESTController {
 		return null;
 	}
 	
+	// TODO - Add swagger information to class
 	// TODO - Change from List<String> to JSON object
 	// Pass in nothing, get list of registry names as JSON/Text Array
 	@RequestMapping(path = "/registries", method = RequestMethod.GET)

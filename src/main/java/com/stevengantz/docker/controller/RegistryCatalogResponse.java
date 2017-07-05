@@ -2,6 +2,8 @@ package com.stevengantz.docker.controller;
 
 import com.stevengantz.docker.registry.RegistryCatalog;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class RegistryCatalogResponse {
 
 	private int status;
