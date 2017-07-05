@@ -41,8 +41,8 @@ The above structure, in whatever tag configuration, allows non-technical individ
 - [ ] List all images, tags, and digests via DockerTagManager API
 - [ ] Easily compare images, tags, and digests via DockerTagManager API
 - [ ] Get all identical/matching items using digests via DockerTagManager API
-- [ ] Specify Registry within API URL
-- [ ] Store registries within application in centralized location
+- [X] Specify Registry within API URL
+- [X] Store registries within application in centralized location
 - [X] Easily add new registries - Alter config.json, mounted in docker. Restarting application will pick up new registries.
 - [ ] Support Secure and Insecure registries
 - [ ] Support pagination for large registries
