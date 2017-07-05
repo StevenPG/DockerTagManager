@@ -74,20 +74,28 @@ public class RegistryRESTController {
 	
 	// TODO - Change from List<String> to JSON object
 	// Pass in digest only in specific registry, get images and tags back that match
+	@RequestMapping(path = "/{registry}/{id}/objects", method = RequestMethod.GET)
+	public @ResponseBody List<String> getImagesFromIDAndRegistry(@PathVariable String registry, @PathVariable String id){
+		return null;
+	}
 	
 	// TODO - Change from List<String> to JSON object
 	// Pass in only digest, get images and tags back that much from all repos
+	@RequestMapping(path = "/registries/{id}/objects", method = RequestMethod.GET)
+	public @ResponseBody List<String> getImagesFromID(@PathVariable String id){
+		return null;
+	}
 	
 	// TODO - Change from List<String> to JSON object
 	// Pass in nothing, get list of registry names as JSON/Text Array
 	@RequestMapping(path = "/registries", method = RequestMethod.GET)
-	public List<String> getConfiguredRegistries(){
+	public @ResponseBody List<String> getConfiguredRegistries(){
 		List<RegistryItem> items = configs.getItems();
 		List<String> registryNames = new LinkedList<String>();
 		for(RegistryItem item : items) {
 			registryNames.add(item.getRegistryLabel());
 		}
-		return null;
+		return registryNames;
 	}
 
 }

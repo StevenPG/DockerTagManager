@@ -43,7 +43,7 @@ public class ConfiguredRegistriesTest {
 
 	@Test
 	public void testToString() {
-		assertEquals("ConfiguredRegistries: local: http://10.0.75.1:5000/, ", cregs.toString());
+		assertEquals("ConfiguredRegistries: local2: http://10.0.75.1:5008/, local: http://10.0.75.1:5000/, ", cregs.toString());
 	}
 		
 	@Test
