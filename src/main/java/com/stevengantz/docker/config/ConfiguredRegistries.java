@@ -43,6 +43,7 @@ public class ConfiguredRegistries {
 				ritem.setRegistryURL(registries.get(key).toString());
 
 				items.add(ritem);
+				logger.info("Found Registry: " + ritem.getRegistryURL() + " configured with name " + ritem.getRegistryLabel());
 			}
 
 		} catch (FileNotFoundException e) {
@@ -65,7 +66,6 @@ public class ConfiguredRegistries {
 	public String getURLFromName(String name) throws RegistryNotFoundException {
 		for(RegistryItem regi : items) {
 			if(regi.getRegistryLabel().equals(name)) {
-				logger.info("Found Registry: " + regi.getRegistryURL() + " configured with name " + regi.getRegistryLabel());
 				return regi.getRegistryURL();
 			}
 		}

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.stevengantz.docker.config.ConfiguredRegistries;
 import com.stevengantz.docker.config.RegistryItem;
 import com.stevengantz.docker.exception.RegistryNotFoundException;
+import com.stevengantz.docker.registry.DockerImageData;
 import com.stevengantz.docker.registry.ImageDigest;
 import com.stevengantz.docker.registry.ImageTags;
+import com.stevengantz.docker.registry.RegistryCatalog;
 import com.stevengantz.docker.registry.RegistryConnection;
 import com.stevengantz.docker.registry.RegistryList;
 
@@ -74,34 +76,116 @@ public class RegistryRESTController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved digest"),
 			@ApiResponse(code = 400, message = "Image:Tag not found in configurations") })
 	@RequestMapping(path = "/{registry}/{repo}/{tag}/id", method = RequestMethod.GET)
-	public @ResponseBody DigestResponse getDigestFromImageTag(@PathVariable String registry, @PathVariable String repo, @PathVariable String tag) {
+	public @ResponseBody DigestResponse getDigestFromImageTag(@PathVariable String registry, @PathVariable String repo,
+			@PathVariable String tag) {
 		RegistryConnection localConnection;
 		try {
 			localConnection = new RegistryConnection(configs.getURLFromName(registry));
-			return new DigestResponse(HttpServletResponse.SC_OK, "Successfully retrieved image digest.", new ImageDigest(localConnection.getImageID(repo, tag)));
+			return new DigestResponse(HttpServletResponse.SC_OK, "Successfully retrieved image digest.",
+					new ImageDigest(localConnection.getImageID(repo, tag)));
 		} catch (RegistryNotFoundException e) {
-			// TODO Auto-generated catch block
-			return new DigestResponse(HttpServletResponse.SC_BAD_REQUEST, "Failed to retrieve image digest.");		
+			return new DigestResponse(HttpServletResponse.SC_BAD_REQUEST, "Failed to retrieve image digest.");
 		}
 	}
 
-	@ApiOperation(value = "Return images matching supplied digest found in supplied repository", response = List.class, produces = "application/json")
+	@ApiOperation(value = "Return images matching supplied digest found in supplied repository", response = DockerImageDataListResponse.class, produces = "application/json")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved matching objects"),
 			@ApiResponse(code = 400, message = "Matched images not found in supplied repository with supplied digest") })
-	// TODO - Change from List<String> to JSON object
 	// Pass in digest only in specific registry, get images and tags back that match
 	@RequestMapping(path = "/{registry}/{id}/matches", method = RequestMethod.GET)
-	public @ResponseBody List<String> getImagesFromIDAndRegistry(@PathVariable String registry,
+	public @ResponseBody DockerImageDataListResponse getMatchingImagesFromIDAndRegistry(@PathVariable String registry,
 			@PathVariable String id) {
-		return null;
+		// Get the list of all repos in registry
+		RegistryConnection localConnection;
+		List<DockerImageData> images = new LinkedList<DockerImageData>();
+		try {
+			localConnection = new RegistryConnection(configs.getURLFromName(registry));
+
+			RegistryCatalog repos = localConnection.getRegistryCatalog();
+			// Iterate over repos to build out DockerImageData objects
+			for (String repo : repos.getRepositories()) {
+				// Get all tags from specific repo
+				ImageTags tags = localConnection.getTagsByRepoName(repo);
+
+				// For each tag, get the digest and create the object based on looping values
+				for (String tag : tags.getTags()) {
+					DockerImageData image = new DockerImageData();
+					image.setRegistryName(registry);
+					image.setImageName(repo);
+					image.setTag(tag);
+					image.setDigest(new ImageDigest(localConnection.getImageID(repo, tag)));
+					images.add(image);
+				}
+			}
+
+			// Iterate through images and only add to new list, what digests are identical
+			List<DockerImageData> matchingImages = new LinkedList<DockerImageData>();
+			for (DockerImageData image : images) {
+				if (image.getDigest().getContents().equals(id)) {
+					matchingImages.add(image);
+				}
+			}
+
+			return new DockerImageDataListResponse(HttpServletResponse.SC_OK,
+					"Successfully pulled all matching image:tag pairs from " + registry + " matching image id " + id,
+					matchingImages);
+		} catch (RegistryNotFoundException e) {
+			return new DockerImageDataListResponse(HttpServletResponse.SC_BAD_REQUEST,
+					"Failed to find Registry");
+		}
 	}
 
-	// TODO - Add swagger information to class
-	// TODO - Change from List<String> to JSON object
+	@ApiOperation(value = "Return all images matching supplied digest in all configured registries", response = DockerImageDataListResponse.class, produces = "application/json")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved matching objects"),
+			@ApiResponse(code = 400, message = "Matched images not found in configured registries with supplied digest") })
 	// Pass in only digest, get images and tags back that much from all repos
-	@RequestMapping(path = "/registries/{id}/objects", method = RequestMethod.GET)
-	public @ResponseBody List<String> getImagesFromID(@PathVariable String id) {
-		return null;
+	@RequestMapping(path = "/registries/{id}/matches", method = RequestMethod.GET)
+	public @ResponseBody DockerImageDataListResponse getImagesFromID(@PathVariable String id) {
+		// Get the list of all repos in registry
+				RegistryConnection localConnection;
+				// List persists outside all registries
+				List<DockerImageData> images = new LinkedList<DockerImageData>();
+				List<RegistryItem> items = configs.getItems();
+				try {
+					
+					// For each configured registry
+					for(RegistryItem item : items) {
+						// Get connection to registry
+						localConnection = new RegistryConnection(configs.getURLFromName(item.getRegistryLabel()));
+						
+						RegistryCatalog repos = localConnection.getRegistryCatalog();
+						// Iterate over repos to build out DockerImageData objects
+						for (String repo : repos.getRepositories()) {
+							// Get all tags from specific repo
+							ImageTags tags = localConnection.getTagsByRepoName(repo);
+
+							// For each tag, get the digest and create the object based on looping values
+							for (String tag : tags.getTags()) {
+								DockerImageData image = new DockerImageData();
+								image.setRegistryName(item.getRegistryLabel());
+								image.setImageName(repo);
+								image.setTag(tag);
+								image.setDigest(new ImageDigest(localConnection.getImageID(repo, tag)));
+								images.add(image);
+							}
+						}
+					}
+
+					// Iterate through images and only add to new list, what digests are identical
+					List<DockerImageData> matchingImages = new LinkedList<DockerImageData>();
+					for (DockerImageData image : images) {
+						if (image.getDigest().getContents().equals(id)) {
+							matchingImages.add(image);
+						}
+					}
+
+					return new DockerImageDataListResponse(HttpServletResponse.SC_OK,
+							"Successfully pulled all matching image:tag pairs from all configured registries ",
+							matchingImages);
+				} catch (RegistryNotFoundException e) {
+					return new DockerImageDataListResponse(HttpServletResponse.SC_BAD_REQUEST,
+							"Failed to find Registry");
+				}
 	}
 
 	@ApiOperation(value = "Return list of all configured registries", response = RegistryListResponse.class, produces = "application/json")
@@ -115,7 +199,43 @@ public class RegistryRESTController {
 		for (RegistryItem item : items) {
 			registryNames.add(item.getRegistryLabel());
 		}
-		return new RegistryListResponse(HttpServletResponse.SC_OK, "Successfully retrieved list of registries.", new RegistryList(registryNames));
+		return new RegistryListResponse(HttpServletResponse.SC_OK, "Successfully retrieved list of registries.",
+				new RegistryList(registryNames));
+	}
+
+	@ApiOperation(value = "Return all images and tags within supplied registry", response = DockerImageDataListResponse.class, produces = "application/json")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully retrieved all objects"),
+			@ApiResponse(code = 400, message = "Images not found in supplied registry") })
+	@RequestMapping(path = "/{registry}/all", method = RequestMethod.GET)
+	public @ResponseBody DockerImageDataListResponse getAllImagesFromRegistry(@PathVariable String registry) {
+		// Get the list of all repos in registry
+		RegistryConnection localConnection;
+		List<DockerImageData> images = new LinkedList<DockerImageData>();
+		try {
+			localConnection = new RegistryConnection(configs.getURLFromName(registry));
+
+			RegistryCatalog repos = localConnection.getRegistryCatalog();
+			// Iterate over repos to build out DockerImageData objects
+			for (String repo : repos.getRepositories()) {
+				// Get all tags from specific repo
+				ImageTags tags = localConnection.getTagsByRepoName(repo);
+
+				// For each tag, get the digest and create the object based on looping values
+				for (String tag : tags.getTags()) {
+					DockerImageData image = new DockerImageData();
+					image.setRegistryName(registry);
+					image.setImageName(repo);
+					image.setTag(tag);
+					image.setDigest(new ImageDigest(localConnection.getImageID(repo, tag)));
+					images.add(image);
+				}
+			}
+
+			return new DockerImageDataListResponse(HttpServletResponse.SC_OK,
+					"Successfully pulled all image:tag pairs from " + registry, images);
+		} catch (RegistryNotFoundException e) {
+			return null;
+		}
 	}
 
 }
