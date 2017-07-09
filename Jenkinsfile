@@ -6,7 +6,7 @@ node {
     def mvnHome = tool 'M35'
 
 	stage ('Build Jar') {
-		sh "${mvnHome}/bin/mvn clean install"
+		sh "${mvnHome}/bin/mvn clean install -DskipTests"
 	}
 
 	stage ('SonarQube') {

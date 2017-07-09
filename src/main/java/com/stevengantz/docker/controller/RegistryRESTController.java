@@ -140,7 +140,7 @@ public class RegistryRESTController {
 			@ApiResponse(code = 400, message = "Matched images not found in configured registries with supplied digest") })
 	// Pass in only digest, get images and tags back that much from all repos
 	@RequestMapping(path = "/registries/{id}/matches", method = RequestMethod.GET)
-	public @ResponseBody DockerImageDataListResponse getImagesFromID(@PathVariable String id) {
+	public @ResponseBody DockerImageDataListResponse getMatchingImagesFromIDAllRegistries(@PathVariable String id) {
 		// Get the list of all repos in registry
 				RegistryConnection localConnection;
 				// List persists outside all registries

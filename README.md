@@ -47,6 +47,11 @@ The above structure, in whatever tag configuration, allows non-technical individ
 - [ ] Support Secure and Insecure registries
 - [ ] Support pagination for large registries
 - [ ] Visually display and filter all registry items
+- [ ] Setup more robust logging mechanisms
+- [ ] Unit test/Mock REST API
+- [ ] Create example JavaScript with rudimentary GUI
+- [ ] Create usability walkthrough
+- [ ] Create tagging example in Wiki
 
 ## CI/CD
 Jenkins automated builds using a Jenkinsfile and a local Jenkins container. Successful builds result in an image push to this repository's docker registry.
