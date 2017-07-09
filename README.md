@@ -38,7 +38,7 @@ The above structure, in whatever tag configuration, allows non-technical individ
 
 ## Requirements:
 
-- [ ] List all images, tags, and digests via DockerTagManager API
+- [X] List all images, tags, and digests via DockerTagManager API
 - [ ] Easily compare images, tags, and digests via DockerTagManager API
 - [ ] Get all identical/matching items using digests via DockerTagManager API
 - [X] Specify Registry within API URL
